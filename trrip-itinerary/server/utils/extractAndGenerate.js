@@ -5,22 +5,30 @@ import { createRequire } from 'module';
 dotenv.config();
 
 const require = createRequire(import.meta.url);
-const pdfParseLib = require('pdf-parse');
-const pdfParse = pdfParseLib.default || pdfParseLib;
+const { PdfReader } = require('pdfreader');
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+const extractPDFText = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const textItems = [];
+    new PdfReader().parseBuffer(buffer, (err, item) => {
+      if (err) reject(err);
+      else if (!item) resolve(textItems.join(' '));
+      else if (item.text) textItems.push(item.text);
+    });
+  });
+};
 
 export const extractAndGenerateItinerary = async (buffer, mimeType) => {
   try {
     let extractedText = '';
 
     if (mimeType === 'application/pdf') {
-      const pdfData = await pdfParse(buffer);
-      extractedText = pdfData.text;
+      extractedText = await extractPDFText(buffer);
       console.log('Extracted PDF text:', extractedText.substring(0, 500));
     } else if (mimeType.startsWith('image/')) {
       const base64Data = buffer.toString('base64');
-
       const imageCompletion = await groq.chat.completions.create({
         model: 'llama-3.2-11b-vision-preview',
         messages: [
@@ -40,7 +48,6 @@ export const extractAndGenerateItinerary = async (buffer, mimeType) => {
         ],
         max_tokens: 1000
       });
-
       extractedText = imageCompletion.choices[0].message.content;
     }
 
