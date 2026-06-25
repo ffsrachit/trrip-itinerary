@@ -23,6 +23,7 @@
     "mongoose": "^9.7.2",
     "multer": "^2.2.0",
     "multer-storage-cloudinary": "^4.0.0",
+    "pdf-parse": "^2.4.5",
     "pdfreader": "^3.0.8"
   },
   "devDependencies": {
