@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://trrip-backend-1-4jca.onrender.com'
+  baseURL: 'https://trrip-backend-1-4jca.onrender.com/api'
 });
 
 API.interceptors.request.use((req) => {
