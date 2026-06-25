@@ -1,6 +1,5 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
 import protect from '../middleware/auth.middleware.js';
 import {
   uploadAndGenerate,
@@ -11,19 +10,12 @@ import {
 
 const router = express.Router();
 
-// Multer setup - temp storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
+// Memory storage - no disk needed
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
     if (allowed.includes(file.mimetype)) {

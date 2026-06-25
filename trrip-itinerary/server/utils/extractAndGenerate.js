@@ -1,36 +1,25 @@
 import Groq from 'groq-sdk';
-import fs from 'fs';
 import dotenv from 'dotenv';
 import { createRequire } from 'module';
 
 dotenv.config();
 
 const require = createRequire(import.meta.url);
-const { PdfReader } = require('pdfreader');
+const pdfParseLib = require('pdf-parse');
+const pdfParse = pdfParseLib.default || pdfParseLib;
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const extractPDFText = (filePath) => {
-  return new Promise((resolve, reject) => {
-    const textItems = [];
-    new PdfReader().parseFileItems(filePath, (err, item) => {
-      if (err) reject(err);
-      else if (!item) resolve(textItems.join(' '));
-      else if (item.text) textItems.push(item.text);
-    });
-  });
-};
-
-export const extractAndGenerateItinerary = async (filePath, mimeType) => {
+export const extractAndGenerateItinerary = async (buffer, mimeType) => {
   try {
     let extractedText = '';
 
     if (mimeType === 'application/pdf') {
-      extractedText = await extractPDFText(filePath);
+      const pdfData = await pdfParse(buffer);
+      extractedText = pdfData.text;
       console.log('Extracted PDF text:', extractedText.substring(0, 500));
     } else if (mimeType.startsWith('image/')) {
-      const fileData = fs.readFileSync(filePath);
-      const base64Data = fileData.toString('base64');
+      const base64Data = buffer.toString('base64');
 
       const imageCompletion = await groq.chat.completions.create({
         model: 'llama-3.2-11b-vision-preview',
