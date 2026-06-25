@@ -66,7 +66,7 @@ const SharedItinerary = () => {
 
       <div className="max-w-3xl mx-auto px-4 py-10">
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-blue-500 rounded-2xl p-6 mb-6 text-white">
+        <div className="bg-linear-to-r from-indigo-600 to-blue-500 rounded-2xl p-6 mb-6 text-white">
           <p className="text-indigo-200 text-sm mb-1">✈️ Shared Itinerary</p>
           <h1 className="text-2xl font-bold mb-2">{itinerary.title}</h1>
           <p className="text-indigo-200 text-sm">

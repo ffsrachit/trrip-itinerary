@@ -68,7 +68,7 @@ const Dashboard = () => {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-r from-indigo-600 to-blue-500 rounded-2xl p-6 mb-8 text-white">
+        <div className="bg-linear-to-r from-indigo-600 to-blue-500 rounded-2xl p-6 mb-8 text-white">
           <h2 className="text-2xl font-bold mb-1">Welcome back, {user?.name}! 👋</h2>
           <p className="text-indigo-100">Upload a travel document to generate your AI itinerary</p>
         </div>
