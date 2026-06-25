@@ -119,7 +119,7 @@ Open http://localhost:5173
 - **Storage:** Cloudinary
 
 ## 👨‍💻 Author
-Rachit Sharma  
+Rachit Verma  
 B.Tech CSE | MERN Stack Developer  
 GitHub: https://github.com/ffsrachit
 
