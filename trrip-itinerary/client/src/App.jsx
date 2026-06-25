@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import SharedItinerary from './pages/SharedItinerary';
+import Landing from './pages/Landing';
 
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
@@ -17,6 +18,7 @@ const App = () => {
       <Router>
         <Toaster position="top-right" />
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/share/:shareToken" element={<SharedItinerary />} />
